@@ -17,13 +17,13 @@ var (
 )
 
 func (s *Simple) RegisterFlagSet() {
-	flags := flag.NewFlagSet(s.GetName(), flag.ExitOnError)
+	flags := flag.NewFlagSet(s.String(), flag.ExitOnError)
 	flags.IntVar(&keyCount, "key_count", 100, "number of keys to generate")
 	flags.StringVar(&keyPrefix, "key_prefix", "some.key.", "prefix for keys")
-	gc.Register(s.GetName(), flags)
+	gc.Register(s.String(), flags)
 }
 
-func (s *Simple) GetName() string {
+func (s *Simple) String() string {
 	return "simple"
 }
 

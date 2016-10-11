@@ -6,7 +6,7 @@ import (
 
 type Module interface {
 	RegisterFlagSet()
-	GetName() string
+	String() string
 }
 
 type Factory struct {
@@ -25,7 +25,7 @@ func (f *Factory) RegisterFlagSets() {
 
 func (f *Factory) GetInstance(seek string) Module {
 	for _, inst := range f.instances {
-		if inst.GetName() == seek {
+		if inst.String() == seek {
 			return inst
 		}
 	}

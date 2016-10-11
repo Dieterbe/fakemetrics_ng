@@ -14,12 +14,12 @@ var (
 )
 
 func (r *Realtime) RegisterFlagSet() {
-	flags := flag.NewFlagSet(r.GetName(), flag.ExitOnError)
+	flags := flag.NewFlagSet(r.String(), flag.ExitOnError)
 	flags.IntVar(&interval, "interval", 100, "the metric interval")
-	gc.Register(r.GetName(), flags)
+	gc.Register(r.String(), flags)
 }
 
-func (r *Realtime) GetName() string {
+func (r *Realtime) String() string {
 	return "realtime"
 }
 

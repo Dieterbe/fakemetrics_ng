@@ -44,7 +44,7 @@ func (m *Multiplexer) GetChan() chan *schema.MetricData {
 	return m.in
 }
 
-func (m *Multiplexer) GetName() string {
+func (m *Multiplexer) String() string {
 	return "multiplexer"
 }
 
