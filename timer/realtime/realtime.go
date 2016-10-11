@@ -1,32 +1,32 @@
 package realtime
 
 import (
-  "flag"
-  "time"
+	"flag"
+	"time"
 
-  gc "github.com/rakyll/globalconf"
+	gc "github.com/rakyll/globalconf"
 )
 
-type Realtime struct {}
+type Realtime struct{}
 
 var (
-  interval int
+	interval int
 )
 
 func (r *Realtime) RegisterFlagSet() {
-  flags := flag.NewFlagSet(r.GetName(), flag.ExitOnError)
-  flags.IntVar(&interval, "interval", 100, "the metric interval")
-  gc.Register(r.GetName(), flags)
+	flags := flag.NewFlagSet(r.GetName(), flag.ExitOnError)
+	flags.IntVar(&interval, "interval", 100, "the metric interval")
+	gc.Register(r.GetName(), flags)
 }
 
-func (r *Realtime) GetName() (string) {
-  return "realtime"
+func (r *Realtime) GetName() string {
+	return "realtime"
 }
 
-func (r *Realtime) GetTicker() (*time.Ticker) {
-  return time.NewTicker(time.Duration(interval) * time.Millisecond)
+func (r *Realtime) GetTicker() *time.Ticker {
+	return time.NewTicker(time.Duration(interval) * time.Millisecond)
 }
 
-func (r *Realtime) GetTimestamp() (int64) {
-  return time.Now().Unix()
+func (r *Realtime) GetTimestamp() int64 {
+	return time.Now().Unix()
 }

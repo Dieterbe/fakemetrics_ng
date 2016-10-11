@@ -1,33 +1,33 @@
 package factory
 
 import (
-  "fmt"
+	"fmt"
 )
 
 type Module interface {
-  RegisterFlagSet()
-  GetName() (string)
+	RegisterFlagSet()
+	GetName() string
 }
 
 type Factory struct {
-  instances []Module
+	instances []Module
 }
 
 func (f *Factory) RegisterModule(mod Module) {
-  f.instances = append(f.instances, mod)
+	f.instances = append(f.instances, mod)
 }
 
 func (f *Factory) RegisterFlagSets() {
-  for _,inst := range f.instances {
-    inst.RegisterFlagSet()
-  }
+	for _, inst := range f.instances {
+		inst.RegisterFlagSet()
+	}
 }
 
-func (f *Factory) GetInstance(seek string)(Module) {
-  for _,inst := range f.instances {
-    if (inst.GetName() == seek) {
-      return inst
-    }
-  }
-  panic(fmt.Sprintf("could not find module %s", seek))
+func (f *Factory) GetInstance(seek string) Module {
+	for _, inst := range f.instances {
+		if inst.GetName() == seek {
+			return inst
+		}
+	}
+	panic(fmt.Sprintf("could not find module %s", seek))
 }
