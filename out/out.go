@@ -1,41 +1,29 @@
 package out
 
 import (
-	fact "github.com/OOM-Killer/fakemetrics_ng/factory"
-	carbon "github.com/OOM-Killer/fakemetrics_ng/out/carbon"
-	iface "github.com/OOM-Killer/fakemetrics_ng/out/iface"
-	mp "github.com/OOM-Killer/fakemetrics_ng/out/multiplexer"
+	"fmt"
+	"gopkg.in/raintank/schema.v1"
 )
 
-var (
-	modules = []iface.OutIface{
-		&carbon.Carbon{},
-	}
-)
+var modules map[string]Out
 
-type OutFactory struct {
-	fact.Factory
+type Out interface {
+	RegisterFlagSet()
+	String() string
+	GetChan() chan *schema.MetricData
+	Start()
 }
 
-func New() OutFactory {
-	fact := OutFactory{}
+func Get(name string) Out {
+	o, ok := modules[name]
+	if !ok {
+		panic(fmt.Sprintf("could not find output %q", name))
+	}
+	return o
+}
+
+func RegisterFlagSet() {
 	for _, mod := range modules {
-		fact.Factory.RegisterModule(mod)
+		mod.RegisterFlagSet()
 	}
-
-	fact.Factory.RegisterFlagSets()
-	return fact
-}
-
-func (f *OutFactory) GetSingleInstance(name string) *iface.OutIface {
-	inst := f.Factory.GetInstance(name).(iface.OutIface)
-	return &inst
-}
-
-func (f *OutFactory) GetInstance(names []string) iface.OutIface {
-	m := mp.Multiplexer{}
-	for _, name := range names {
-		m.AddOut(f.GetSingleInstance(name))
-	}
-	return &m
 }

@@ -1,16 +1,12 @@
-package multiplexer
+package out
 
 import (
-	//"fmt"
-
 	"gopkg.in/raintank/schema.v1"
-
-	iface "github.com/OOM-Killer/fakemetrics_ng/out/iface"
 )
 
 type Multiplexer struct {
 	in       chan *schema.MetricData
-	outs     []iface.OutIface
+	outs     []Out
 	outChans []chan *schema.MetricData
 }
 
@@ -33,7 +29,7 @@ func (m *Multiplexer) loop() {
 	}
 }
 
-func (m *Multiplexer) AddOut(out *iface.OutIface) {
+func (m *Multiplexer) AddOut(out *Out) {
 	m.outs = append(m.outs, *out)
 }
 

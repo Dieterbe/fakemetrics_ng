@@ -2,6 +2,9 @@ package main
 
 import (
 	"flag"
+	"github.com/OOM-Killer/fakemetrics_ng/datagen"
+	"github.com/OOM-Killer/fakemetrics_ng/out"
+	"github.com/OOM-Killer/fakemetrics_ng/timer"
 	"strings"
 
 	gc "github.com/rakyll/globalconf"
@@ -49,5 +52,10 @@ func setupConfig() {
 		"output",
 		"name of the output module, can be specified multiple times")
 	gc.Register("modules", moduleFlags)
+
+	timer.RegisterFlagSet()
+	datagen.RegisterFlagSet()
+	out.RegisterFlagSet()
+
 	conf.ParseAll()
 }

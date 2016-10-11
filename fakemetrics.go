@@ -5,7 +5,7 @@ import (
 
 	"gopkg.in/raintank/schema.v1"
 
-	"github.com/OOM-Killer/fakemetrics_ng/data_gen"
+	"github.com/OOM-Killer/fakemetrics_ng/datagen"
 	"github.com/OOM-Killer/fakemetrics_ng/out"
 	"github.com/OOM-Killer/fakemetrics_ng/timer"
 )
@@ -18,15 +18,12 @@ var (
 
 func main() {
 	flag.Parse()
-	timerFactory := timer.New()
-	dataGenFactory := data_gen.New()
-	outFactory := out.New()
 
 	setupConfig()
 
-	timer := timerFactory.GetInstance(timerMod)
-	dataGen := dataGenFactory.GetInstance(dataGenMod)
-	out := outFactory.GetInstance(outMod)
+	timer := timer.Get(timerMod)
+	dataGen := datagen.Get(dataGenMod)
+	out := out.Get(outMod)
 
 	out.Start()
 	outChan := out.GetChan()
@@ -37,7 +34,7 @@ func main() {
 	}
 }
 
-func doTick(dg data_gen.DataGen, outChan chan *schema.MetricData, ts int64) {
+func doTick(dg datagen.DataGen, outChan chan *schema.MetricData, ts int64) {
 	metrics := dg.GetData(ts)
 	for _, m := range metrics {
 		outChan <- m

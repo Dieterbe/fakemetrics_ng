@@ -1,4 +1,4 @@
-package realtime
+package timer
 
 import (
 	"flag"

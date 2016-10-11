@@ -1,4 +1,4 @@
-package simple
+package datagen
 
 import (
 	"flag"
@@ -8,6 +8,10 @@ import (
 
 	gc "github.com/rakyll/globalconf"
 )
+
+func init() {
+	modules["simple"] = Simple
+}
 
 type Simple struct{}
 

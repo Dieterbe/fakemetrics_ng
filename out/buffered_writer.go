@@ -1,4 +1,4 @@
-package buffered_writer
+package out
 
 import (
 	"bytes"

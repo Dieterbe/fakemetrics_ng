@@ -1,4 +1,4 @@
-package carbon
+package out
 
 import (
 	"flag"
@@ -8,13 +8,12 @@ import (
 
 	"gopkg.in/raintank/schema.v1"
 
-	bw "github.com/OOM-Killer/fakemetrics_ng/out/buffered_writer"
 	gc "github.com/rakyll/globalconf"
 )
 
 type Carbon struct {
 	in   chan *schema.MetricData
-	bw   *bw.BufferedWriter
+	bw   *BufferedWriter
 	conn net.Conn
 }
 
@@ -46,7 +45,7 @@ func (c *Carbon) GetChan() chan *schema.MetricData {
 }
 
 func (c *Carbon) Start() {
-	c.bw = &bw.BufferedWriter{}
+	c.bw = &BufferedWriter{}
 	c.bw.FlushInterval = flushInterval
 	c.bw.MetricsPerFlush = metricsPerFlush
 	c.bw.FlushCB = c.flush
